@@ -1,0 +1,72 @@
+body
+{
+	background-color: #282c34;
+}
+
+topbar
+{
+	position: fixed;
+	top: 0px;
+	height: 20px;
+}
+
+nav
+{
+	position: relative;
+	top: 0px;
+	padding: 10px 0;
+	background-color: #4500CC;
+	text-align: center;
+	border-top: 1px solid #220066;
+	border-bottom: 1px solid #220066;
+}
+
+.wrapper
+{
+	width: 80%;
+	margin-left: auto;
+	margin-right: auto;
+	min-height: 100vh;
+	background-image: url("footer_lodyas.png");
+	background-repeat: repeat;
+	background-size: 100px;
+
+}
+
+ol
+{
+	display: none;
+}
+
+ul
+{
+	padding: 0;
+	margin: 0;
+	list-style-type: none;
+	font-size: 18px;
+	height: 35 px;
+	line-height: 200%;
+	display: inline-block;
+
+	@media screen and (max-width: 768px)
+	{
+		display: none;
+	}
+}
+
+ul a
+{
+	color: white;
+	text-decoration: none;
+	display: block;
+}
+
+ul li
+{
+	float: right;
+	height: 40px;
+	width: 12vw;
+	border-left: 1px dashed white;
+	border-right: 1px dashed white;
+}
+

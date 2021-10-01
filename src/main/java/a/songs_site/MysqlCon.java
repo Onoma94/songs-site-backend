@@ -1,13 +1,10 @@
 package a.songs_site;
 
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.sql.*;
-import java.util.List;
 
 public class MysqlCon {
 	  
-	private static final long serialVersionUID = 1L;
 	
 	protected static void MysqlCon() throws IOException {
 		try
