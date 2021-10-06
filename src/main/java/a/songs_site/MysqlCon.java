@@ -1,12 +1,12 @@
 package a.songs_site;
 
-import java.io.IOException;
 import java.sql.*;
 
 public class MysqlCon {
 	  
 	
-	protected static void MysqlCon() throws IOException {
+	protected static void MysqlCon()
+	{
 		try
 		{
 		    Class.forName("com.mysql.cj.jdbc.Driver");
