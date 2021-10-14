@@ -1,7 +1,7 @@
 //import logo from './logo.svg';
 import './App.css';
 import './style.css';
-import { HashRouter, Route, NavLink } from 'react-router-dom';
+import { Route, NavLink } from 'react-router-dom';
 
 import Home from "./pages/home";
 import Chart from "./pages/chart";
@@ -17,7 +17,6 @@ function App() {
     <body>
       <div className="wrapper">
         <TopBar />
-        <HashRouter>
         <nav>
             <ul>
                 <li>
@@ -54,7 +53,6 @@ function App() {
             <Route path="/contact" component={Contact} />
             <Route exact path="/" component={Home} />
         </div>
-        </HashRouter>
         <Footer />
       </div>
     </body>
