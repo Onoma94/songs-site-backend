@@ -11,7 +11,7 @@ public class Test {
 	public static void main(String[] args) {  
 	    ApplicationContext context= new ClassPathXmlApplicationContext("applicationContext.xml");
 	    BeanFactory factory = context;
-	    Song song=(Song)factory.getBean("song");
+	    SongComponent song=(SongComponent)factory.getBean("song");
 	    song.display();
 	    
 	}  

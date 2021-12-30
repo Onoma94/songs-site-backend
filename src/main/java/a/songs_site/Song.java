@@ -1,21 +1,30 @@
 package a.songs_site;
 
-import org.springframework.stereotype.Component;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.validation.constraints.NotNull;
 
+import lombok.Data;
 
-@Component
+@Entity
+@Data
 public class Song 
 {
+	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	@Column(name="SongID")
 	private int id;
-	private String artist;
-	private String title;
 	
-	public Song(int id, String artist, String title) {
-		super();
-		this.id = id;
-		this.artist = artist;
-		this.title = title;
-	}
+	@Column(name="ArtistName")
+	@NotNull(message="{NotNull.Song.artist}")
+	private String artistName;
+	
+	@Column(name="Title")
+	@NotNull(message="{NotNull.Song.title}")
+	private String title;
 
 	public int getId() {
 		return id;
@@ -25,12 +34,12 @@ public class Song
 		this.id = id;
 	}
 	
-	public String getArtist() {
-		return artist;
+	public String getArtistName() {
+		return artistName;
 	}
 
-	public void setArtist(String artist) {
-		this.artist = artist;
+	public void setArtistName(String artist) {
+		this.artistName = artist;
 	}
 
 	public String getTitle() {
@@ -41,8 +50,9 @@ public class Song
 		this.title = title;
 	}
 	
-	public void display() {
-		System.out.println(id + " - " + artist + " - " + title);
+	public Song(String artistName, String title)
+	{
+		this.artistName = artistName;
+		this.title = title;
 	}
-
 }
