@@ -5,41 +5,43 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
 import lombok.Data;
 
 @Entity
+@Table(name="songs1_view")
 @Data
 public class Song 
 {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	@Column(name="SongID")
-	private int id;
+	@Column(name="songid")
+	private int songid;
 	
-	@Column(name="ArtistName")
-	@NotNull(message="{NotNull.Song.artist}")
-	private String artistName;
+	@Column(name="artistname")
+	@NotNull(message="{NotNull.Song.artistName}")
+	private String artistname;
 	
-	@Column(name="Title")
+	@Column(name="title")
 	@NotNull(message="{NotNull.Song.title}")
 	private String title;
 
-	public int getId() {
-		return id;
+	public int getSongId() {
+		return songid;
 	}
 
-	public void setId(int id) {
-		this.id = id;
+	public void setSongId(int songid) {
+		this.songid = songid;
 	}
 	
 	public String getArtistName() {
-		return artistName;
+		return artistname;
 	}
 
-	public void setArtistName(String artist) {
-		this.artistName = artist;
+	public void setArtistName(String artistname) {
+		this.artistname = artistname;
 	}
 
 	public String getTitle() {
@@ -50,9 +52,14 @@ public class Song
 		this.title = title;
 	}
 	
-	public Song(String artistName, String title)
+	public Song(String artistname, String title)
 	{
-		this.artistName = artistName;
+		this.artistname = artistname;
 		this.title = title;
+	}
+	
+	public Song()
+	{
+
 	}
 }
