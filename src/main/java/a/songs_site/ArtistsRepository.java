@@ -8,7 +8,7 @@ import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 
 
 @RepositoryRestResource()
-public interface SongsRepository extends JpaRepository<Song, Integer>, JpaSpecificationExecutor<Song> 
+public interface ArtistsRepository extends JpaRepository<Artist, Integer>, JpaSpecificationExecutor<Artist> 
 {
-	List<Song> findBySongtitleContaining(String songtitle);
+	List<Artist> findByArtistnameContaining(String artistname);
 }

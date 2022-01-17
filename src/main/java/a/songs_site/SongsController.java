@@ -26,21 +26,22 @@ public class SongsController
 {
 	@Autowired
 	SongsRepository songsRepository;
+	ArtistsRepository artistsRepository;
 	
 	@GetMapping("/songs")
-	public ResponseEntity<List<Song>> listSongs(@RequestParam(required = false) String title)
+	public ResponseEntity<List<Song>> listSongs(@RequestParam(required = false) String songtitle)
 	{
 		log.info("SongsController:  list songs");
 		try
 		{
 			List<Song> songs = new ArrayList<Song>();
-			if (title == null)
+			if (songtitle == null)
 			{
 				songsRepository.findAll().forEach(songs::add);
 			}
 			else
 			{
-				songsRepository.findByTitleContaining(title).forEach(songs::add);
+				songsRepository.findBySongtitleContaining(songtitle).forEach(songs::add);
 			}
 			if (songs.isEmpty())
 			{
@@ -70,12 +71,40 @@ public class SongsController
 		
 	}
 	
+	@GetMapping("/artists")
+	public ResponseEntity<List<Artist>> listArtists(@RequestParam(required = false) String artistname)
+	{
+		log.info("SongsController:  list artists");
+		try
+		{
+			List<Artist> artists = new ArrayList<Artist>();
+			if (artistname == null)
+			{
+				artistsRepository.findAll().forEach(artists::add);
+			}
+			else
+			{
+				artistsRepository.findByArtistnameContaining(artistname).forEach(artists::add);
+			}
+			if (artists.isEmpty())
+			{
+				return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+			}
+			return new ResponseEntity<>(artists, HttpStatus.OK);
+		}
+		catch (Exception e)
+		{
+			return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+		
+	}
+	
 	@PostMapping("/add_songs")
 	public ResponseEntity<?> addSong(@RequestBody Song song)
 	{
 		try 
 		{
-			Song newSong = songsRepository.save(new Song(song.getArtistName(), song.getTitle()));
+			Song newSong = songsRepository.save(new Song(song.getArtistName(), song.getSongTitle()));
 			return new ResponseEntity<>(newSong, HttpStatus.CREATED);
 		}
 		catch(Exception e)

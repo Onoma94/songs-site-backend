@@ -11,29 +11,25 @@ import javax.validation.constraints.NotNull;
 import lombok.Data;
 
 @Entity
-@Table(name="songs1_view")
+@Table(name="artists1")
 @Data
-public class Song 
+public class Artist 
 {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	@Column(name="songid")
-	private int songid;
+	@Column(name="artistid")
+	private int artistid;
 	
 	@Column(name="artistname")
-	@NotNull(message="{NotNull.Song.artistname}")
+	@NotNull(message="{NotNull.Artist.artistname}")
 	private String artistname;
-	
-	@Column(name="songtitle")
-	@NotNull(message="{NotNull.Song.songtitle}")
-	private String songtitle;
 
-	public int getSongId() {
-		return songid;
+	public int getArtistId() {
+		return artistid;
 	}
 
-	public void setSongId(int songid) {
-		this.songid = songid;
+	public void setArtistId(int artistid) {
+		this.artistid = artistid;
 	}
 	
 	public String getArtistName() {
@@ -43,22 +39,12 @@ public class Song
 	public void setArtistName(String artistname) {
 		this.artistname = artistname;
 	}
-
-	public String getSongTitle() {
-		return songtitle;
-	}
-
-	public void setSongTitle(String songtitle) {
-		this.songtitle = songtitle;
-	}
 	
-	public Song(String artistname, String songtitle)
+	public Artist(String artistname, String artisttitle)
 	{
 		this.artistname = artistname;
-		this.songtitle = songtitle;
 	}
-	
-	public Song()
+	public Artist()
 	{
 
 	}
