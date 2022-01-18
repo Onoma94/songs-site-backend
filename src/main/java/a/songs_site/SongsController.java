@@ -26,6 +26,8 @@ public class SongsController
 {
 	@Autowired
 	SongsRepository songsRepository;
+	
+	@Autowired
 	ArtistsRepository artistsRepository;
 	
 	@GetMapping("/songs")
@@ -74,7 +76,7 @@ public class SongsController
 	@GetMapping("/artists")
 	public ResponseEntity<List<Artist>> listArtists(@RequestParam(required = false) String artistname)
 	{
-		log.info("SongsController:  list artists");
+		log.info("ArtistsController:  list artists");
 		try
 		{
 			List<Artist> artists = new ArrayList<Artist>();
@@ -95,6 +97,21 @@ public class SongsController
 		catch (Exception e)
 		{
 			return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+		
+	}
+	
+	@GetMapping("/artists/{id}")
+	public ResponseEntity<Artist> getArtistById(@PathVariable("id") int id)
+	{
+		Optional<Artist> artistData = artistsRepository.findById(id);
+		if (artistData.isPresent())
+		{
+			return new ResponseEntity<>(artistData.get(), HttpStatus.OK);
+		}
+		else
+		{
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}
 		
 	}
