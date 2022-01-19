@@ -13,12 +13,16 @@ import lombok.Data;
 @Entity
 @Table(name="songs1_view")
 @Data
-public class Song 
+public class Song
 {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(name="songid")
 	private int songid;
+	
+	@Column(name="artistid")
+	@NotNull(message="{NotNull.Song.artistid}")
+	private int artistid;
 	
 	@Column(name="artistname")
 	@NotNull(message="{NotNull.Song.artistname}")
@@ -36,14 +40,18 @@ public class Song
 		this.songid = songid;
 	}
 	
-	public String getArtistName() {
-		return artistname;
+	public int getArtistId() {
+		return artistid;
+	}
+
+	public void setArtistId(int artistid) {
+		this.artistid = artistid;
 	}
 
 	public void setArtistName(String artistname) {
 		this.artistname = artistname;
 	}
-
+	
 	public String getSongTitle() {
 		return songtitle;
 	}
@@ -52,9 +60,9 @@ public class Song
 		this.songtitle = songtitle;
 	}
 	
-	public Song(String artistname, String songtitle)
+	public Song(int artistid, String songtitle)
 	{
-		this.artistname = artistname;
+		this.artistid = artistid;
 		this.songtitle = songtitle;
 	}
 	
@@ -62,4 +70,5 @@ public class Song
 	{
 
 	}
+
 }

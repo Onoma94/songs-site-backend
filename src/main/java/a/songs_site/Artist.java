@@ -40,7 +40,7 @@ public class Artist
 		this.artistname = artistname;
 	}
 	
-	public Artist(String artistname, String artisttitle)
+	public Artist(String artistname)
 	{
 		this.artistname = artistname;
 	}

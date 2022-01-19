@@ -73,6 +73,7 @@ public class SongsController
 		
 	}
 	
+	
 	@GetMapping("/artists")
 	public ResponseEntity<List<Artist>> listArtists(@RequestParam(required = false) String artistname)
 	{
@@ -101,6 +102,33 @@ public class SongsController
 		
 	}
 	
+	@GetMapping("songsbyartist/{artistid}")
+	public ResponseEntity<List<Song>> getSongByArtistId(@PathVariable("artistid") int artistid)
+	{
+		log.info("SongsController:  list songs by artistid");
+		try
+		{
+			List<Song> songs = new ArrayList<Song>();
+			if (artistid == 0)
+			{
+				songsRepository.findAll().forEach(songs::add);
+			}
+			else
+			{
+				songsRepository.findByArtistid(artistid).forEach(songs::add);
+			}
+			if (songs.isEmpty())
+			{
+				return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+			}
+			return new ResponseEntity<>(songs, HttpStatus.OK);
+		}
+		catch (Exception e)
+		{
+			return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+	}
+	
 	@GetMapping("/artists/{id}")
 	public ResponseEntity<Artist> getArtistById(@PathVariable("id") int id)
 	{
@@ -121,7 +149,7 @@ public class SongsController
 	{
 		try 
 		{
-			Song newSong = songsRepository.save(new Song(song.getArtistName(), song.getSongTitle()));
+			Song newSong = songsRepository.save(new Song(song.getArtistId(), song.getSongTitle()));
 			return new ResponseEntity<>(newSong, HttpStatus.CREATED);
 		}
 		catch(Exception e)
