@@ -30,6 +30,9 @@ public class SongsController
 	@Autowired
 	ArtistsRepository artistsRepository;
 	
+	@Autowired
+	ChartsRepository chartsRepository;
+	
 	@GetMapping("/songs")
 	public ResponseEntity<List<Song>> listSongs(@RequestParam(required = false) String songtitle)
 	{
@@ -144,6 +147,33 @@ public class SongsController
 		
 	}
 	
+	@GetMapping("/charts/{chartno}")
+	public ResponseEntity<List<Chart>> getChartByChartNo(@PathVariable("chartno") int chartno)
+	{
+		log.info("SongsController:  list songs by artistid");
+		try
+		{
+			List<Chart> charts = new ArrayList<Chart>();
+			if (chartno == 0)
+			{
+				chartsRepository.findAll().forEach(charts::add);
+			}
+			else
+			{
+				chartsRepository.findByChartno(chartno).forEach(charts::add);
+			}
+			if (charts.isEmpty())
+			{
+				return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+			}
+			return new ResponseEntity<>(charts, HttpStatus.OK);
+		}
+		catch (Exception e)
+		{
+			return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+	}
+	
 	@PostMapping("/add_songs")
 	public ResponseEntity<?> addSong(@RequestBody Song song)
 	{
@@ -157,5 +187,4 @@ public class SongsController
 			return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
-	
 }
