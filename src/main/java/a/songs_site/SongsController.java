@@ -33,6 +33,9 @@ public class SongsController
 	@Autowired
 	ChartsRepository chartsRepository;
 	
+	@Autowired
+	ChartDatesRepository chartDatesRepository;
+	
 	@GetMapping("/songs")
 	public ResponseEntity<List<Song>> listSongs(@RequestParam(required = false) String songtitle)
 	{
@@ -173,6 +176,23 @@ public class SongsController
 			return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
+	
+	@GetMapping("/chartdates")
+	public ResponseEntity<List<ChartDate>> listChartDates()
+	{
+		log.info("SongsController:  list chart dates");
+		try
+		{
+			List<ChartDate> chartDates = new ArrayList<ChartDate>();
+			chartDatesRepository.findAll().forEach(chartDates::add);
+			return new ResponseEntity<>(chartDates, HttpStatus.OK);
+		}
+		catch (Exception e)
+		{
+			return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+	}
+	
 	
 	@PostMapping("/add_songs")
 	public ResponseEntity<?> addSong(@RequestBody Song song)
