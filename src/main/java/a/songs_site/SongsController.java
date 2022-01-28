@@ -1,7 +1,10 @@
 package a.songs_site;
 
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,6 +38,9 @@ public class SongsController
 	
 	@Autowired
 	ChartDatesRepository chartDatesRepository;
+	
+	@Autowired
+	ChartRunRepository chartRunRepository;
 	
 	@GetMapping("/songs")
 	public ResponseEntity<List<Song>> listSongs(@RequestParam(required = false) String songtitle)
@@ -153,7 +159,7 @@ public class SongsController
 	@GetMapping("/charts/{chartno}")
 	public ResponseEntity<List<Chart>> getChartByChartNo(@PathVariable("chartno") int chartno)
 	{
-		log.info("SongsController:  list songs by artistid");
+		log.info("SongsController:  list songs by chart");
 		try
 		{
 			List<Chart> charts = new ArrayList<Chart>();
@@ -177,14 +183,70 @@ public class SongsController
 		}
 	}
 	
+	@GetMapping("/songcharts/{songid}")
+	public ResponseEntity<List<Chart>> getChartsBySongId(@PathVariable("songid") int songid)
+	{
+		log.info("ChartsController:  list charts by songid");
+		try
+		{
+			List<Chart> charts = new ArrayList<Chart>();
+			if (songid == 0)
+			{
+				chartsRepository.findAll().forEach(charts::add);
+			}
+			else
+			{
+				chartsRepository.findBySongid(songid).forEach(charts::add);
+			}
+			if (charts.isEmpty())
+			{
+				return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+			}
+			return new ResponseEntity<>(charts, HttpStatus.OK);
+		}
+		catch (Exception e)
+		{
+			return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+	}
+	
+	@GetMapping("/chartrun/{songid}")
+	public ResponseEntity<List<ChartRun>> getChartRun(@PathVariable("songid") int songid)
+	{
+		log.info("ChartRunController:  list charts by songid");
+		try {
+			List<ChartRun> chartRun = new ArrayList<ChartRun>();
+			if (songid == 0)
+			{
+				chartRunRepository.findAll().forEach(chartRun::add);
+			}
+			else
+			{
+				chartRunRepository.getChartRun(songid).forEach(chartRun::add);
+			}
+			if (chartRun.isEmpty())
+			{
+				return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+			}
+			return new ResponseEntity<>(chartRun, HttpStatus.OK);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+		
+	}
+	
 	@GetMapping("/chartdates")
-	public ResponseEntity<List<ChartDate>> listChartDates()
+	public ResponseEntity<Map<Integer, Date>> listChartDates()
 	{
 		log.info("SongsController:  list chart dates");
 		try
 		{
-			List<ChartDate> chartDates = new ArrayList<ChartDate>();
-			chartDatesRepository.findAll().forEach(chartDates::add);
+			Map<Integer, Date> chartDates = new HashMap<Integer, Date>();
+			chartDatesRepository.findAll().forEach((ChartDate chartDate) ->
+			{
+				chartDates.put(chartDate.getChartNo(), chartDate.getChartDate());
+			});
 			return new ResponseEntity<>(chartDates, HttpStatus.OK);
 		}
 		catch (Exception e)
@@ -193,6 +255,20 @@ public class SongsController
 		}
 	}
 	
+	@GetMapping("/chartdates/{id}")
+	public ResponseEntity<ChartDate> getChartDate(@PathVariable("id") int id)
+	{
+		List<ChartDate> chartDate = chartDatesRepository.findByChartno(id);
+		if (chartDate != null)
+		{
+			return new ResponseEntity<>(chartDate.get(0), HttpStatus.OK);
+		}
+		else
+		{
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		}
+		
+	}
 	
 	@PostMapping("/add_songs")
 	public ResponseEntity<?> addSong(@RequestBody Song song)

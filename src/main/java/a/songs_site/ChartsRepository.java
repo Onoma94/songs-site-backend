@@ -10,4 +10,5 @@ import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 public interface ChartsRepository extends JpaRepository<Chart, Integer>, JpaSpecificationExecutor<Chart> 
 {
 	List<Chart> findByChartno(int chartno);
+	List<Chart> findBySongid(int songid);
 }

@@ -21,16 +21,24 @@ public class Chart {
 	@Column(name="chartpos")
 	private int chartpos;
 	
+	@Column(name="artistid")
+	private int artistid;
+	
+	@Column(name="songid")
+	private int songid;
+	
 	@Column(name="artistname")
 	private String artistname;
 	
 	@Column(name="songtitle")
 	private String songtitle;
 	
-	public Chart(int chartno, int chartpos, String artistname, String songtitle)
+	public Chart(int chartno, int chartpos, int artistid, int songid, String artistname, String songtitle)
 	{
 		this.chartno = chartno;
 		this.chartpos = chartpos;
+		this.artistid = artistid;
+		this.songid = songid;
 		this.artistname = artistname;
 		this.songtitle = songtitle;
 	}

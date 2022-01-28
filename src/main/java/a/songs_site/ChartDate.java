@@ -26,6 +26,16 @@ public class ChartDate {
 	@Column(name="chartdate")
 	private Date chartdate;
 	
+	public Date getChartDate()
+	{
+		return this.chartdate;
+	}
+	
+	public int getChartNo()
+	{
+		return this.chartno;
+	}
+	
 	public ChartDate(int chartno, Date chartDate)
 	{
 		this.chartno = chartno;
