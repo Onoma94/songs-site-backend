@@ -42,6 +42,9 @@ public class SongsController
 	@Autowired
 	ChartRunRepository chartRunRepository;
 	
+	@Autowired
+	GuestBookRepository guestBookRepository;
+	
 	@GetMapping("/songs")
 	public ResponseEntity<List<Song>> listSongs(@RequestParam(required = false) String songtitle)
 	{
@@ -270,13 +273,33 @@ public class SongsController
 		
 	}
 	
-	@PostMapping("/add_songs")
-	public ResponseEntity<?> addSong(@RequestBody Song song)
+	@GetMapping("/guestbook")
+	public ResponseEntity<List<GuestBook>> getGuestBook()
+	{
+		log.info("SongsController:  list guest book");
+		try
+		{
+			List<GuestBook> guestBook = new ArrayList<GuestBook>();
+			guestBookRepository.findAll().forEach(guestBook::add);
+			if (guestBook.isEmpty())
+			{
+				return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+			}
+			return new ResponseEntity<>(guestBook, HttpStatus.OK);
+		}
+		catch (Exception e)
+		{
+			return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+	}
+	
+	@PostMapping("/guestbook")
+	public ResponseEntity<?> addGuestBook(@RequestBody GuestBook guestBook)
 	{
 		try 
 		{
-			Song newSong = songsRepository.save(new Song(song.getArtistId(), song.getSongTitle()));
-			return new ResponseEntity<>(newSong, HttpStatus.CREATED);
+			GuestBook newPost = guestBookRepository.save(new GuestBook(guestBook.getPostContent(), guestBook.getPostAuthor(), guestBook.getPostDate()));
+			return new ResponseEntity<>(newPost, HttpStatus.CREATED);
 		}
 		catch(Exception e)
 		{
